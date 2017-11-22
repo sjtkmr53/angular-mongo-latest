@@ -8,14 +8,19 @@
  * Controller of the angular1App
  */
 angular.module('angular1App')
-  .controller('loginCtrl',['$scope', '$state', function ($scope, $state) {
+  .controller('loginCtrl',['$scope', '$state','$http', function ($scope, $state,$http) {
   	$scope.hideCreateAccount = true;
   	$scope.login = function(){
-  		if($scope.userName === "sujit.kumar@navaratan.com" && $scope.password === "1234"){
-  			$state.go('home');
-  		}else{
-  			swal ( "Oops" ,  "Something went wrong!" ,  "error" )
-  		}
+      var data = {
+        userName:"sujit.kumar@gmail.com",
+        password:"1234"
+      }
+      $http.post('http://localhost:27017/createAccount',data)
+        .then(function(data) {
+          alert("save")
+        },function(error){
+          console.log("error")
+        });
   	}
 
   

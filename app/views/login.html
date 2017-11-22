@@ -1,18 +1,24 @@
 
   <div class="login-page">
+    <center style = "margin-top:-40px;margin-bottom:10px;"><img ng-src="./images/logo.png" alt="" style = "width:150px"/></center>
     <div class="form">
-    <!--   <form class="register-form" >
-        <input type="text" placeholder="name"/>
-        <input type="password" placeholder="password"/>
-        <input type="text" placeholder="email address"/>
-        <button>create</button>
-        <p class="message">Already registered? <a href="#" >Sign In</a></p>
-      </form> -->
-      <form class="login-form" >
-        <input type="text" placeholder="username" ng-model = "userName"/>
-        <input type="password" placeholder="password" ng-model = "password"/>
-        <button ng-click = "login()">login</button>
-       <!--  <p class="message">Not registered? <a href="#" ng-click = "createAccount()">Create an account</a></p> -->
+      <form >
+        <div ng-if = "hideCreateAccount">
+          <input type="text" placeholder="name" ng-model = "accountCreate.name"/>
+          <input type="password" placeholder="password" ng-model = "accountCreate.password"/>
+          <input type="text" placeholder="email address" ng-model = "accountCreate.email"/>
+          <input type="text" placeholder="passcode" ng-model = "accountCreate.passcode"/>
+          <button ng-click = "adminCreateAccount()">create</button>
+          <p class="message">Already registered? <a href="#" ng-click = "alreadyAccount()" >Sign In</a></p>
+        </div>
+      </form>
+      <form  >
+        <div ng-if = "!hideCreateAccount">
+          <input type="text" placeholder="username" ng-model = "userName"/>
+          <input type="password" placeholder="password" ng-model = "password"/>
+          <button ng-click = "login()">login</button>
+          <p class="message">Not registered? <a href="#" ng-click = "createAccount()">Create an account</a></p>
+        <div>
       </form>
     </div>
   </div>

@@ -3,11 +3,12 @@
     "body-parser": "^1.17.2",
     "cors": "^2.8.4",
     "express": "^4.15.3",
+    "mongodb": "^2.2.33",
     "mongoskin": "~0.6.1",
     "nodemailer": "^4.4.0",
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "start": "nodemon --inspect server.js"
+    "start": "nodemon --inspect app.js"
   }
 }

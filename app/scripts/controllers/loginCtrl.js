@@ -9,19 +9,35 @@
  */
 angular.module('angular1App')
   .controller('loginCtrl',['$scope', '$state','$http', function ($scope, $state,$http) {
-  	$scope.hideCreateAccount = true;
-  	$scope.login = function(){
-      var data = {
-        userName:"sujit.kumar@gmail.com",
-        password:"1234"
-      }
-      $http.post('http://localhost:27017/createAccount',data)
+  	$scope.hideCreateAccount = false;
+   function allFieldRequiredMessages(){
+      return swal('Oops...','All Fields are required.','error')
+    } 
+    $scope.accountCreate = {};
+  	$scope.adminCreateAccount = function(){
+      if($scope.accountCreate.name && $scope.accountCreate.password && $scope.accountCreate.email && $scope.accountCreate.passcode){
+         $http.post('http://localhost:3000/createAccount',$scope.accountCreate)
         .then(function(data) {
-          alert("save")
+         if(data.data.status){
+          $scope.hideCreateAccount = false;
+         }else{
+          swal('Oops...',data.data.messages,'error'
+        )
+         }
         },function(error){
           console.log("error")
         });
+      }else{
+        allFieldRequiredMessages()
+      }
   	}
+    $scope.createAccount = function(){
+      $scope.hideCreateAccount = true;
+    }
+    $scope.alreadyAccount = function(){
+      $scope.hideCreateAccount = false;
+    }
+
 
   
   }]);

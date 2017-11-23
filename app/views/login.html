@@ -14,8 +14,8 @@
       </form>
       <form  >
         <div ng-if = "!hideCreateAccount">
-          <input type="text" placeholder="username" ng-model = "userName"/>
-          <input type="password" placeholder="password" ng-model = "password"/>
+          <input type="text" placeholder="email" ng-model = "userLogin.email"/>
+          <input type="password" placeholder="password" ng-model = "userLogin.password"/>
           <button ng-click = "login()">login</button>
           <p class="message">Not registered? <a href="#" ng-click = "createAccount()">Create an account</a></p>
         <div>

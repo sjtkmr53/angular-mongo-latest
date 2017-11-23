@@ -37,32 +37,42 @@ global.db = db;
   // db.close();
 });
 
-
-
-
 app.post('/createAccount', function (req, res) {
   if(req.body.passcode === 'Navtech'){
     req.body.type = "Admin";
-    db.collection('documents').save(req.body,function(error,data){
+    db.collection('user').save(req.body,function(error,data){
       if(error){
-        res.send({
-          status: false,
-          messages:" User don't have permission to create Account."
-        });
+        res.send({ status: false, messages:" User don't have permission to create Account." });
       }else{
-        res.send({
-          status: true,
-          messages:"Account created ."
-        });
+        res.send({ status: true, messages:"Account created ." });
       }
     });
   }else{
-    var data ={
-      status:false,
-      messages:" User don't have permission to create Account."
-    }
+    var data ={ status:false, messages:" User don't have permission to create Account." }
     res.send(data);
   }
+  
+})
+
+app.post('/login', function (req, res) {
+  var loginInformation = req.body;
+  db.collection('user').find({
+        'email':loginInformation.email
+    }).toArray(function(err, result) {
+    if(err){
+      res.send({ status: false, messages:"invalid Username" });
+    }else{
+      if(result[0].password === loginInformation.password){
+        if(result[0].type){
+          res.send({ status: true, type: 'Admin' });
+        }else{
+          res.send({ status: true, type: 'User' });
+        }
+      }else{
+        res.send({ status: false, messages: 'Invalid Username or Password' });
+      }
+    }
+  });
   
 })
 

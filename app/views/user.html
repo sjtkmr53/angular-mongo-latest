@@ -1,0 +1,48 @@
+<nav class="navbar navbar-inverse" style = "margin-left: 10px; margin-right: 10px">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" >User Panel</a>
+    </div>
+    <ul class="nav navbar-nav" style = "width:90%">
+      <li class="active" ><a >Attendance</a>
+      </li>
+      <li style = "margin-left: 50% "><a > Welcome {{ userEmail }}</a></li>
+      <li ><a  ng-click = "logout()"> Log out</a></li>
+    </ul>
+  </div>
+</nav>
+<div class = "container-fluid ,login-page">
+  <div class = "row">
+    <div class = "col col-md-4">
+      <label> <h4 style = "color:white">CLick for login and logout </h4> </label>
+    	<div>
+        <button type="button" ng-class = "loginBtnDisabled" class="btn btn-primary" ng-click = "attendanceLogin()">Today's Login</button>
+         <button type="button" ng-class = "logoutBtnDisabled" class="btn btn-primary" ng-click = "attendanceLogout()">Today's Logout</button>
+      </div>
+    </div>
+      <div class = "col col-md-4">
+      <label> <h4 style = "color:white"> Add Daily Status</h4> </label>
+      <div>
+        <textarea rows="4" cols="100" ng-model = "dailyStatus">
+          </textarea>
+        <button type="button" ng-class = "logoutBtnDisabled" class="btn btn-primary" ng-click = "addStatus()">Add Status</button>
+      </div>
+    </div>
+  </div>
+  <div style = "margin-top:40px">
+    <div style = "margin-left: 20px;
+    margin-right: 20px;
+    color: whitesmoke;
+    min-height: 40px;
+    border-radius: 3px;
+    border-color: black;
+    border: 2px solid;
+" class = "row card card-block" ng-repeat = "item in userInformation">
+    <div class = "col col-md-2"><b>Login Time </b> {{item.loginTime | date:'dd/mm/yyyy'}}</div>
+    <div class = "col col-md-2"><b>Logout Time </b> {{item.logoutTime | date:'dd/mm/yyyy'}}</div>
+     <div class = "col col-md-8"><b>Status </b>{{item.dailyStatus}}</div>
+    </div>
+  </div>
+
+
+</div>

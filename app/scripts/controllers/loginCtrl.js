@@ -8,7 +8,7 @@
  * Controller of the angular1App
  */
 angular.module('angular1App')
-  .controller('loginCtrl',['$scope', '$state','$http', function ($scope, $state,$http) {
+  .controller('loginCtrl',['$scope', '$state','$http','$rootScope','$window', function ($scope, $state,$http,$rootScope,$window) {
   	$scope.hideCreateAccount = false;
    function allFieldRequiredMessages(){
       return swal('Oops...','All Fields are required.','error')
@@ -44,7 +44,12 @@ angular.module('angular1App')
         $http.post('http://localhost:3000/login',$scope.userLogin)
         .then(function(data) {
          if(data.data.status){
-          console.log(data);
+          $window.localStorage.setItem("email", data.data.email);
+          if(data.data.type ==="Admin"){
+            $state.go('admin');
+          }else{
+            $state.go('user');
+          }
          }else{
           swal('Oops...',data.data.messages,'error'
         )

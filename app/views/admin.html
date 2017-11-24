@@ -1,0 +1,24 @@
+<nav class="navbar navbar-inverse" style = "margin-left: 10px; margin-right: 10px">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" >Admin Panel</a>
+    </div>
+    <ul class="nav navbar-nav" style = "width:90%">
+      <li class="active" ><a >User</a>
+      </li>
+      <li><a >Leave List</a></li>
+      <li><a >Holiday List</a></li>
+      <li><a > Attendance</a></li>
+      <li style = "margin-left: 50% "><a > Welcome {{adminEmail}}</a></li>
+      <li ><a  ng-click = "logout()"> Log out</a></li>
+    </ul>
+  </div>
+</nav>
+<div class = "container-fluid ,login-page">
+	<div class = "form">
+    <input type="text" placeholder="name" ng-model = "createUser.name"/>
+    <input type="text" placeholder="email address" ng-model = "createUser.email"/>
+    <input  type="text" placeholder="date of joining " ng-model = "createUser.dateOfJoining " />
+    <button ng-click = "userCreateAccount()">create</button>
+  </div>
+</div>

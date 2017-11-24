@@ -30,10 +30,15 @@ function config($stateProvider,$urlRouterProvider,$locationProvider){
             templateUrl:'views/login.html',
             controller:'loginCtrl'
             })
-            .state('home',{
-            url:'/home',
-            templateUrl:'views/home.html',
-            controller:'homeCtrl'
+            .state('admin',{
+            url:'/admin',
+            templateUrl:'views/admin.html',
+            controller:'adminCtrl'
+            })
+            .state('user',{
+            url:'/user',
+            templateUrl:'views/user.html',
+            controller:'userCtrl'
             })
 
             $urlRouterProvider.otherwise("/login");

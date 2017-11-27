@@ -46,24 +46,29 @@
     <div class = "row">
       <div class = "col col-md-3" style = "min-height:200px">
         <button type="button" class="btn btn-primary btn-block" ng-click = "getAllLeaveList()">Leave List</button>
-        <button type="button" class="btn btn-primary btn-block" ng-click = "leaveApply()">Apply for leave </button>
+        <button type="button" class="btn btn-primary btn-block" ng-click = "leaveApplyContainer()">Apply for leave </button>
       </div>
       <div class = "col col-md-9">
         <div ng-if = "leavList" >
           <center><b>User list</b></center>
           <div  class = "row card card-block list-group-item list-group-item-primary" ng-repeat = "leave in Leaves">
-            <div class = "col col-md-3"><b>startDate: </b> {{leave.startDate}}</div>
-            <div class = "col col-md-5"><b>EndDate: </b> {{leave.endDate}}</div>
-            <div class = "col col-md-3"><b>Reason: </b> {{leave.reason}}</div>
+            <div class = "col col-md-2"><b>Email: </b> {{leave.userEmail}}</div>
+            <div class = "col col-md-2"><b>startDate: </b> {{leave.startDate | date :'MM/dd/yy'}}</div>
+            <div class = "col col-md-2"><b>EndDate: </b> {{leave.endDate | date :'MM/dd/yy'}}</div>
+            <div class = "col col-md-4"><b>Reason: </b> {{leave.reason | date :'MM/dd/yy'}}</div>
+            <div class = "col col-md-2"><b>Status: </b> {{leave.status }}</div>
           </div>
         </div>
-        <div ng-if = "!userList">
-          <center><b> Create User </b></center>
-          <div class = "form">
-            <input type="text" placeholder="name" ng-model = "createUser.name"/>
-            <input type="text" placeholder="email address" ng-model = "createUser.email"/>
-            <input  type="text" placeholder="date of joining " ng-model = "createUser.dateOfJoining " />
-            <button ng-click = "userCreateAccount()">create</button>
+        <div ng-if = "!leavList">
+          <center><b> Apply for leave  </b></center>
+          <div class = "form" style = "max-width: 700px">
+            <label>Start Date</label>
+            <input type="date" ng-model = "reasonForLeave.startDate"/>
+            <label>End Date</label>
+            <input type="date" ng-model = "reasonForLeave.endDate"/>
+            <label> Reason </label>
+            <textarea rows="4" cols="80" ng-model = "reasonForLeave.reason" ></textarea> 
+            <button ng-click = "applyLeave()">Apply</button>
           </div>
         </div>
       </div>

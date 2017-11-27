@@ -231,7 +231,25 @@ app.post('/deleteUser',function(req,res){
     })
 })
 
+app.post('/leaveApply',function(req,res){
+  db.collection('leaveList').save(req.body,function(error,data){
+    if(error){
+      res.send({ status: false });
+    }else{
+      res.send({ status: true, messages:"leave Applied Successfully." });
+    }
+  });
+})
 
+app.get('/getAllLeaveList',function(req,res){
+ db.collection("leaveList").find({'type':'User'}).toArray(function (err,result){
+    if(err){
+      res.send({status:false});
+    }else{
+      res.send({status:true,data:result});
+    }
+  })
+})
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')

@@ -42,8 +42,8 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport("SMTP", {
     service: "Gmail",
     auth: {
-        user: "",
-        pass: ""
+        user: "nottofunny11@gmail.com",
+        pass: "Cricket53@"
     }
 });
 
@@ -102,6 +102,7 @@ app.post('/login', function (req, res) {
 
 app.post('/createUserAccount', function (req, res) {
   req.body.type = "User";
+  req.body.isActive = true;
   req.body.password = randomstring.generate(7);
   var email = req.body.email;
   var password = req.body.password;
@@ -152,7 +153,7 @@ app.post('/userAttendance/logout',function(req,res){
     'loginDate' :req.body.loginDate,
     'isLogin' : true
     }, {
-        $set: {'islogout': true,'logoutTime':req.body.logoutTime}
+        $set: {'isLogout': true,'logoutTime':req.body.logoutTime}
     }, {multi: true },
     function(err, result) {
       if (err) throw err;
@@ -189,6 +190,47 @@ app.post('/getUserInformation',function(req,res){
     }
   })
 })
+
+app.get('/getAllUserAttendance',function(req,res){
+  db.collection("userAttendance").find({
+    'isLogin':true,
+    }).toArray(function (err,result){
+    if(err){
+      res.send({status:false});
+    }else{
+      res.send({status:true,data:result});
+    }
+  })
+})
+
+app.get('/getAllUsers',function(req,res){
+  db.collection("user").find({
+    'type':'User',
+    'isActive':true
+    }).toArray(function (err,result){
+    if(err){
+      res.send({status:false});
+    }else{
+      res.send({status:true,data:result});
+    }
+  })
+})
+
+app.post('/deleteUser',function(req,res){
+  db.collection("user").update({
+    'email':req.body.email,
+    'isActive' : true
+    }, {
+        $set: { 'isActive' : false}
+    }, {multi: true },
+    function(err, result) {
+      if (err) throw err;
+      if(result){
+        res.send({ status: true});
+      }
+    })
+})
+
 
 
 app.listen(3000, function () {

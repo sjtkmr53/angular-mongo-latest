@@ -4,45 +4,72 @@
       <a class="navbar-brand" >User Panel</a>
     </div>
     <ul class="nav navbar-nav" style = "width:90%">
-      <li class="active" ><a >Attendance</a>
-      </li>
+      <li ng-class="activeAttendance" ng-click = "Attendance()"><a >Attendance</a></li>
+       <li ng-class="activeLeaveList" ng-click = "leaveList()"><a >Leave List</a></li>
       <li style = "margin-left: 50% "><a > Welcome {{ userEmail }}</a></li>
       <li ><a  ng-click = "logout()"> Log out</a></li>
     </ul>
   </div>
 </nav>
-<div class = "container-fluid ,login-page">
-  <div class = "row">
-    <div class = "col col-md-4">
-      <label> <h4 style = "color:white">CLick for login and logout </h4> </label>
-    	<div>
-        <button type="button" ng-class = "loginBtnDisabled" class="btn btn-primary" ng-click = "attendanceLogin()">Today's Login</button>
-         <button type="button" ng-class = "logoutBtnDisabled" class="btn btn-primary" ng-click = "attendanceLogout()">Today's Logout</button>
-      </div>
-    </div>
+<div class = "container-fluid ,login-page" >
+  <div ng-if = "showAttendance">
+    <div class = "row">
       <div class = "col col-md-4">
-      <label> <h4 style = "color:white"> Add Daily Status</h4> </label>
-      <div>
-        <textarea rows="4" cols="100" ng-model = "dailyStatus">
-          </textarea>
-        <button type="button" ng-class = "logoutBtnDisabled" class="btn btn-primary" ng-click = "addStatus()">Add Status</button>
+        <label> <h4 style = "color:white">Click for login and logout </h4> </label>
+      	<div>
+          <button type="button" ng-class = "loginBtnDisabled" class="btn btn-primary" ng-click = "attendanceLogin()">Today's Login</button>
+           <button type="button" ng-class = "logoutBtnDisabled" class="btn btn-primary" ng-click = "attendanceLogout()">Today's Logout</button>
+        </div>
+      </div>
+        <div class = "col col-md-4">
+        <label> <h4 style = "color:white"> Add Daily Status</h4> </label>
+        <div>
+          <textarea rows="4" cols="100" ng-model = "dailyStatus">
+            </textarea>
+          <button type="button" class="btn btn-primary" ng-click = "addStatus()">Add Status</button>
+        </div>
+      </div>
+    </div>
+    <div class = "row list-group"> 
+      <span style = "margin-top: 10px;font-size: 16px"><center>Check Your Daily Status </center></span>
+      <div style = "margin-top:40px; max-height: 300px">
+        <div  class = "row card card-block list-group-item list-group-item-primary" ng-repeat = "item in userInformation">
+          <div class = "col col-md-1"><b>Date: </b> {{item.loginDate}}</div>
+          <div class = "col col-md-1"><b>Login Time: </b> {{item.loginTime | date:'dd/mm/yyyy'}}</div>
+          <div class = "col col-md-1"><b>Logout Time: </b> {{item.logoutTime | date:'dd/mm/yyyy'}}</div>
+          <div class = "col col-md-9"><b>Status:  </b>{{item.dailyStatus}}</div>
+        </div>
       </div>
     </div>
   </div>
-  <div style = "margin-top:40px">
-    <div style = "margin-left: 20px;
-    margin-right: 20px;
-    color: whitesmoke;
-    min-height: 40px;
-    border-radius: 3px;
-    border-color: black;
-    border: 2px solid;
-" class = "row card card-block" ng-repeat = "item in userInformation">
-    <div class = "col col-md-2"><b>Login Time </b> {{item.loginTime | date:'dd/mm/yyyy'}}</div>
-    <div class = "col col-md-2"><b>Logout Time </b> {{item.logoutTime | date:'dd/mm/yyyy'}}</div>
-     <div class = "col col-md-8"><b>Status </b>{{item.dailyStatus}}</div>
-    </div>
+   <div ng-if = "!showAttendance">
+    <div class = "row">
+      <div class = "col col-md-3" style = "min-height:200px">
+        <button type="button" class="btn btn-primary btn-block" ng-click = "getAllLeaveList()">Leave List</button>
+        <button type="button" class="btn btn-primary btn-block" ng-click = "leaveApply()">Apply for leave </button>
+      </div>
+      <div class = "col col-md-9">
+        <div ng-if = "leavList" >
+          <center><b>User list</b></center>
+          <div  class = "row card card-block list-group-item list-group-item-primary" ng-repeat = "leave in Leaves">
+            <div class = "col col-md-3"><b>startDate: </b> {{leave.startDate}}</div>
+            <div class = "col col-md-5"><b>EndDate: </b> {{leave.endDate}}</div>
+            <div class = "col col-md-3"><b>Reason: </b> {{leave.reason}}</div>
+          </div>
+        </div>
+        <div ng-if = "!userList">
+          <center><b> Create User </b></center>
+          <div class = "form">
+            <input type="text" placeholder="name" ng-model = "createUser.name"/>
+            <input type="text" placeholder="email address" ng-model = "createUser.email"/>
+            <input  type="text" placeholder="date of joining " ng-model = "createUser.dateOfJoining " />
+            <button ng-click = "userCreateAccount()">create</button>
+          </div>
+        </div>
+      </div>
   </div>
+
+
 
 
 </div>

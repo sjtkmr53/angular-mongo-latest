@@ -4,21 +4,67 @@
       <a class="navbar-brand" >Admin Panel</a>
     </div>
     <ul class="nav navbar-nav" style = "width:90%">
-      <li class="active" ><a >User</a>
-      </li>
-      <li><a >Leave List</a></li>
-      <li><a >Holiday List</a></li>
-      <li><a > Attendance</a></li>
+      <li ng-class="adminCreateUserActive"  ng-click = "adminUser()"><a >User</a></li>
+      <li ng-class="adminLeaveActive"  ng-click = "leave()"><a >Leave Application</a></li>
+     <!--  <li ng-class="adminHolidayList"  ng-click = "holiday()"><a >Holiday List</a></li> -->
+      <li ng-class="adminAttendance"  ng-click = "attendance()"><a > Attendance</a></li>
       <li style = "margin-left: 50% "><a > Welcome {{adminEmail}}</a></li>
       <li ><a  ng-click = "logout()"> Log out</a></li>
     </ul>
   </div>
 </nav>
-<div class = "container-fluid ,login-page">
-	<div class = "form">
-    <input type="text" placeholder="name" ng-model = "createUser.name"/>
-    <input type="text" placeholder="email address" ng-model = "createUser.email"/>
-    <input  type="text" placeholder="date of joining " ng-model = "createUser.dateOfJoining " />
-    <button ng-click = "userCreateAccount()">create</button>
+<!-- this section is for user!-->
+
+
+<div class = "container-fluid ,login-page" ng-if = "containerCreateUser">
+  <div class = "row">
+    <div class = "col col-md-3" style = "min-height:200px">
+      <button type="button" class="btn btn-primary btn-block" ng-click = "showUser()">User List</button>
+      <button type="button" class="btn btn-primary btn-block" ng-click = "showCreateUser()">Create User</button>
+    </div>
+    <div class = "col col-md-9">
+      <div ng-if = "userList" >
+        <center><b>User list</b></center>
+        <div  class = "row card card-block list-group-item list-group-item-primary" ng-repeat = "user in users">
+          <div class = "col col-md-3"><b>Name: </b> {{user.name}}</div>
+          <div class = "col col-md-5"><b>Email: </b> {{user.email}}</div>
+          <div class = "col col-md-3"><b>Joining Date: </b> {{user.dateOfJoining }}</div>
+          <div class = "col col-md-1"><button type="button" class="btn btn-danger" ng-click = "deleteUser(user.email)">Delete</button></div>
+        </div>
+      </div>
+      <div ng-if = "!userList">
+        <center><b> Create User </b></center>
+        <div class = "form">
+          <input type="text" placeholder="name" ng-model = "createUser.name"/>
+          <input type="text" placeholder="email address" ng-model = "createUser.email"/>
+          <input  type="text" placeholder="date of joining " ng-model = "createUser.dateOfJoining " />
+          <button ng-click = "userCreateAccount()">create</button>
+        </div>
+      </div>
+    </div>
+  </div>
+	
+</div>
+<div class = "container-fluid ,login-page" ng-if = "containerLeaveAplication">
+  leave
+</div>
+<div class = "container-fluid ,login-page" ng-if = "containerHolidayList">
+  holiday
+</div>
+
+
+<!-- this section is for Attandance !-->
+<div class = "container-fluid ,login-page" ng-if = "containerAttendance">
+ <div class = "row list-group"> 
+    <span style = "margin-top: 10px;font-size: 16px"><center>Check All Attandance </center></span>
+    <div style = "margin-top:40px; max-height: 300px">
+      <div  class = "row card card-block list-group-item list-group-item-primary" ng-repeat = "item in userInformation">
+        <div class = "col col-md-1"><b>Email ID: </b> {{item.email}}</div>
+        <div class = "col col-md-1"><b>Date: </b> {{item.loginDate}}</div>
+        <div class = "col col-md-1"><b>Login Time: </b> {{item.loginTime | date:'dd/mm/yyyy'}}</div>
+        <div class = "col col-md-1"><b>Logout Time: </b> {{item.logoutTime | date:'dd/mm/yyyy'}}</div>
+        <div class = "col col-md-7"><b>Status:  </b>{{item.dailyStatus}}</div>
+      </div>
+    </div>
   </div>
 </div>

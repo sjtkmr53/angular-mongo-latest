@@ -56,7 +56,7 @@
             <div class = "col col-md-2"><b>startDate: </b> {{leave.startDate | date :'MM/dd/yy'}}</div>
             <div class = "col col-md-2"><b>EndDate: </b> {{leave.endDate | date :'MM/dd/yy'}}</div>
             <div class = "col col-md-4"><b>Reason: </b> {{leave.reason | date :'MM/dd/yy'}}</div>
-            <div class = "col col-md-2"><b>Status: </b> {{leave.status }}</div>
+            <div class = "col col-md-2" ><b>Status: </b> <span  ng-class = "leave.status">{{leave.status }} </span></div>
           </div>
         </div>
         <div ng-if = "!leavList">
@@ -74,7 +74,15 @@
       </div>
   </div>
 
-
-
-
 </div>
+<style>
+  .pending{
+    color: #8a6d3b;
+  }
+  .Approve{
+    color:#3c763d;
+  }
+  .Decline{
+    color:#a94442;
+  }
+</style>

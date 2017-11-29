@@ -27,7 +27,6 @@ app.use(allowCrossDomain);
 
 var MongoClient = require('mongodb').MongoClient
   , assert = require('assert');
-
 // Connection URL using npm mongo n
 var url = 'mongodb://localhost:27017/myproject';
 // Use connect method to connect to the Server
@@ -42,20 +41,62 @@ var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport("SMTP", {
     service: "Gmail",
     auth: {
-        user: "nottofunny11@gmail.com",
-        pass: "Cricket53@"
+        user: "",
+        pass: ""
     }
 });
 
-function sendEmail(mailOptions) {
-  transporter.sendMail(mailOptions, function(error, response) {
-      if (error) {
-          console.log(error);
-      } else {
-          console.log("Message sent");
-      }
-  });
+var ObjectID = require('mongodb').ObjectID;
+var emailTemplate = require('swig-email-templates');
+var templates = new emailTemplate();
+var path = require("path");
+var emailTemp = {root: path.join(__dirname, "emailTemplates")
+    }
+
+function sendEmail(mailOptions, context, template) {
+  // templates(emailTemp, function(err, render) {
+      templates.render('createAccount.html', context, function(err, html,text, subject) {
+          mailOptions.html = html;
+          transporter.sendMail({
+            from: mailOptions.from,
+            to: mailOptions.to,
+            subject: mailOptions.subject,
+            html: html,
+            text: context
+          });
+          // transporter.sendMail(mailOptions, function(error, response) {
+          //     if (error) {
+          //         console.log(error);
+          //     } else {
+          //         console.log("Message sent");
+          //     }
+          // });
+      });
+  // });
 };
+
+function sendEmailtoUser (value){
+  db.collection('leaveList').find({
+        '_id':ObjectID(value.id)
+    }).toArray(function(err, result) {
+      if(value.value === "Approve"){
+        var mailOptions = {
+          from:'sujit.kumar@test.com', 
+          to: result[0].userEmail,
+          subject: 'Leave Approved',
+          text: 'Hi '+result[0].userEmail+ ' your Leave is Approved.'
+      };
+      }else{
+        var mailOptions = {
+          from:'sujit.kumar@test.com', 
+          to: result[0].userEmail,
+          subject: 'Leave disapprove',
+          text: 'Hi '+result[0].userEmail+ ' your Leave is disapprove.'
+        };
+      }
+      // sendEmail(mailOptions);
+    })
+}
 
 app.post('/createAccount', function (req, res) {
   if(req.body.passcode === 'Navtech'){
@@ -114,10 +155,13 @@ app.post('/createUserAccount', function (req, res) {
       var mailOptions = {
         from:'sujit.kumar@test.com', 
         to: email,
-        subject: 'Account Create',
-        text: 'Hi '+email+ ' your password  is '+password
-    };
-      sendEmail(mailOptions);
+        subject: 'Account Create'
+      };
+      var context = {
+        email:email,
+        password:password
+      }
+      sendEmail(mailOptions,context,'createAccount.html');
     }
   });
 })
@@ -249,6 +293,23 @@ app.get('/getAllLeaveList',function(req,res){
       res.send({status:true,data:result});
     }
   })
+})
+
+app.post('/leaveApprove',function(req,res){
+  
+    var obj = req.body
+  db.collection("leaveList").update({
+    '_id': ObjectID(req.body.id)
+    }, {
+        $set: { 'status' : req.body.value,'disabled':'disabled122'}
+    }, {multi: true },
+    function(err, result) {
+      if (err) throw err;
+      if(result){
+        sendEmailtoUser(obj)
+        res.send({ status: true});
+      }
+    })
 })
 
 app.listen(3000, function () {

@@ -46,7 +46,16 @@
 	
 </div>
 <div class = "container-fluid ,login-page" ng-if = "containerLeaveAplication">
-  leave
+  <center><b>Leave Status</b></center>
+  <div  class = "row card card-block list-group-item list-group-item-primary" ng-repeat = "leave in leaves"  >
+    <div class = "col col-md-2"><b>Email: </b> {{leave.userEmail}}</div>
+    <div class = "col col-md-1"><b>startDate: </b> {{leave.startDate | date :'MM/dd/yy'}}</div>
+    <div class = "col col-md-1"><b>EndDate: </b> {{leave.endDate | date :'MM/dd/yy'}}</div>
+    <div class = "col col-md-4"><b>Reason: </b> {{leave.reason | date :'MM/dd/yy'}}</div>
+    <div class = "col col-md-2" ><b>Status: </b> <span  ng-class = "leave.status">{{leave.status }} </span></div>
+    <div class = "col col-md-1"><button type="button" ng-class = "leave.disabled" class="btn btn-primary" ng-click = "approveLeave(leave._id, 'Approve')">Approve</button></div>
+    <div class = "col col-md-1"><button type="button" ng-class = "leave.disabled"  class="btn btn-danger" ng-click = "approveLeave(leave._id,'Decline')">Decline</button></div>
+  </div>
 </div>
 <div class = "container-fluid ,login-page" ng-if = "containerHolidayList">
   holiday
@@ -68,3 +77,14 @@
     </div>
   </div>
 </div>
+<style>
+  .pending{
+    color: #8a6d3b;
+  }
+  .Approve{
+    color:#3c763d;
+  }
+  .Decline{
+    color:#a94442;
+  }
+</style>

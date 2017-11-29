@@ -32,6 +32,16 @@ angular.module('angular1App')
       });
     }
 
+    var getAllLeaves = function(){
+      $http.get('http://localhost:3000/getAllLeaveList').then(function(data) {
+       if(data.data.status){
+        $scope.leaves= data.data.data;
+       }else{console.log("error")}
+      },function(error){
+        console.log("error")
+      });
+    }
+
     $scope.userCreateAccount = function(){
       $http.post('http://localhost:3000/createUserAccount',$scope.createUser)
         .then(function(data) {
@@ -84,6 +94,7 @@ angular.module('angular1App')
         $scope.containerLeaveAplication = true;
         $scope.containerHolidayList = false;
         $scope.containerAttendance = false;
+        getAllLeaves();
       }
       $scope.adminUser = function(){
         $scope.adminCreateUserActive = 'active';
@@ -104,6 +115,16 @@ angular.module('angular1App')
         $http.post('http://localhost:3000/deleteUser',{email:value}).then(function(data) {
           if(data.data.status){
             getAllUser();
+           }else{console.log("error")}
+          },function(error){
+            console.log("error")
+        });
+      }
+
+      $scope.approveLeave =function(id, value){
+        $http.post('http://localhost:3000/leaveApprove',{'id':id,'value':value}).then(function(data) {
+          if(data.data.status){
+            getAllLeaves();
            }else{console.log("error")}
           },function(error){
             console.log("error")

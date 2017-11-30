@@ -26,7 +26,7 @@ angular.module('angular1App')
     }
 
   var leaveApply = function(){
-    $http.get('http://localhost:3000/getAllLeaveList').then(function(data) {
+    $http.get('http://localhost:3000/admin/getAllLeaveList').then(function(data) {
        $scope.Leaves =data.data.data;
       },function(error){
         console.log("error")
@@ -40,7 +40,7 @@ angular.module('angular1App')
       'email': $scope.userEmail,
       'loginTime' : d.getHours()+':'+ d.getMinutes()
     };
-    $http.post('http://localhost:3000/userAttendance/login',data)
+    $http.post('http://localhost:3000/user/userAttendanceLogin',data)
       .then(function(data) {
        if(data.data.status){
         $scope.loginBtnDisabled = data.data.btnStatus;
@@ -56,7 +56,7 @@ angular.module('angular1App')
       'email': $scope.userEmail,
       'logoutTime' : d.getHours()+':'+ d.getMinutes()
     };
-    $http.post('http://localhost:3000/userAttendance/logout',data)
+    $http.post('http://localhost:3000/user/userAttendanceLogout',data)
       .then(function(data) {
        if(data.data.status){
         $scope.logoutBtnDisabled = data.data.btnStatus;
@@ -65,17 +65,17 @@ angular.module('angular1App')
         console.log("error")
       });
   }
-  $scope.addStatus = function(){
+  $scope.addStatus = function(status){
     var data = {
       'loginDate': $scope.loginDate,
       'email': $scope.userEmail,
-      'status': $scope.dailyStatus
+      'status':status
     };
-    $http.post('http://localhost:3000/userAttendance/dailyStatus',data)
+    $http.post('http://localhost:3000/user/dailyStatus',data)
       .then(function(data) {
       },function(error){
         console.log("error")
-      });
+    });
   }
 
   $scope.logout = function(){
@@ -107,7 +107,7 @@ angular.module('angular1App')
     $scope.reasonForLeave.status = "pending",
     $scope.reasonForLeave.userEmail = $scope.userEmail;
     $scope.reasonForLeave.type = 'User';
-    $http.post('http://localhost:3000/leaveApply', $scope.reasonForLeave).then(function(data) {
+    $http.post('http://localhost:3000/user/leaveApply', $scope.reasonForLeave).then(function(data) {
        swal('leave applied ','success')
       },function(error){
         console.log("error")

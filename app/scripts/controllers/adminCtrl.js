@@ -8,7 +8,7 @@ angular.module('angular1App')
     $scope.userList = true;
     //for attendance 
       var getAllAttendance = function(){
-        $http.get('http://localhost:3000/getAllUserAttendance')
+        $http.get('http://localhost:3000/admin/getAllUserAttendance')
         .then(function(data) {
          if(data.data.status){
           $scope.userInformation = data.data.data;
@@ -23,7 +23,7 @@ angular.module('angular1App')
 
     // for user List
     var getAllUser = function(){
-      $http.get('http://localhost:3000/getAllUsers').then(function(data) {
+      $http.get('http://localhost:3000/admin/getAllUsers').then(function(data) {
        if(data.data.status){
         $scope.users= data.data.data;
        }else{console.log("error")}
@@ -33,7 +33,7 @@ angular.module('angular1App')
     }
 
     var getAllLeaves = function(){
-      $http.get('http://localhost:3000/getAllLeaveList').then(function(data) {
+      $http.get('http://localhost:3000/admin/getAllLeaveList').then(function(data) {
        if(data.data.status){
         $scope.leaves= data.data.data;
        }else{console.log("error")}
@@ -43,7 +43,7 @@ angular.module('angular1App')
     }
 
     $scope.userCreateAccount = function(){
-      $http.post('http://localhost:3000/createUserAccount',$scope.createUser)
+      $http.post('http://localhost:3000/admin/createUserAccount',$scope.createUser)
         .then(function(data) {
          if(data.data.status){
             getAllUser();
@@ -112,7 +112,7 @@ angular.module('angular1App')
         getAllUser();
       }
       $scope.deleteUser = function(value){
-        $http.post('http://localhost:3000/deleteUser',{email:value}).then(function(data) {
+        $http.post('http://localhost:3000/admin/deleteUser',{email:value}).then(function(data) {
           if(data.data.status){
             getAllUser();
            }else{console.log("error")}
@@ -122,7 +122,7 @@ angular.module('angular1App')
       }
 
       $scope.approveLeave =function(id, value){
-        $http.post('http://localhost:3000/leaveApprove',{'id':id,'value':value}).then(function(data) {
+        $http.post('http://localhost:3000/admin/leaveApprove',{'id':id,'value':value}).then(function(data) {
           if(data.data.status){
             getAllLeaves();
            }else{console.log("error")}

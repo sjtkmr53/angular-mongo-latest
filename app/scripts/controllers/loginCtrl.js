@@ -17,7 +17,7 @@ angular.module('angular1App')
     $scope.userLogin = {};
   	$scope.adminCreateAccount = function(){
       if($scope.accountCreate.name && $scope.accountCreate.password && $scope.accountCreate.email && $scope.accountCreate.passcode){
-         $http.post('http://localhost:3000/createAccount',$scope.accountCreate)
+         $http.post('http://localhost:3000/admin/createAccount',$scope.accountCreate)
         .then(function(data) {
          if(data.data.status){
           $scope.hideCreateAccount = false;
@@ -41,7 +41,7 @@ angular.module('angular1App')
     
     $scope.login = function(){
       if($scope.userLogin.email && $scope.userLogin.password){
-        $http.post('http://localhost:3000/login',$scope.userLogin)
+        $http.post('http://localhost:3000/common/login',$scope.userLogin)
         .then(function(data) {
          if(data.data.status){
           $window.localStorage.setItem("email", data.data.email);

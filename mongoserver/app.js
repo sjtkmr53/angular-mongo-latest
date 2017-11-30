@@ -41,8 +41,8 @@ global.nodemailer = require('nodemailer');
 global.transporter = nodemailer.createTransport("SMTP", {
     service: "Gmail",
     auth: {
-        user: "nottofunny11@gmail.com",
-        pass: "Cricket53@"
+        user: "",
+        pass: ""
     }
 });
 
